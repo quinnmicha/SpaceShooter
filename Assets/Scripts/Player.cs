@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _trippleShotPrefab;
+    private UIManager _uIManager;
 
     [SerializeField]
     private float _speed = 5f;
@@ -19,6 +20,8 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     private float _nextFire = 0f;
     private SpawnManager _spawnManager;
+    [SerializeField]
+    private int _score;
 
     //PowerUps
     private bool _trippleShot = false;
@@ -33,6 +36,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         //Take the current position and make it the starting position ( 0, 0, 0)
         transform.position = new Vector3(0f, 0f, 0f);
@@ -152,6 +156,11 @@ public class Player : MonoBehaviour
             }
         }
         
+    }
+
+    public void addScore(int points) {
+        _score += points;
+        _uIManager.setScore(_score);
     }
 
     public void activateTrippleShot() {

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    private Player _player;
     [SerializeField]
     private GameObject[] _powerupPrefab;
     [SerializeField]
@@ -12,11 +13,13 @@ public class Enemy : MonoBehaviour
     private float _randomNumber;
     private int _randomPowerup;
     private float _powerUpChance = 0.2f;//This will be the "percentage" that a powerup will spawn
+    private int _points = 10;
     
 
     // Start is called before the first frame update
     void Start()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -34,6 +37,9 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Laser"){
             Destroy(other.gameObject);
             PowerupChance();
+            if (_player != null) { 
+                _player.addScore(_points);
+            }
             Destroy(gameObject);
         }
         else if (other.tag == "Player") {
