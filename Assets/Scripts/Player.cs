@@ -37,6 +37,10 @@ public class Player : MonoBehaviour
     void Start()
     {
         _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (_uIManager == null)
+        {
+            Debug.LogError("UI Manager is null");//Errors out and logs error
+        }
 
         //Take the current position and make it the starting position ( 0, 0, 0)
         transform.position = new Vector3(0f, 0f, 0f);
