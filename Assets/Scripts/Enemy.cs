@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    private Player _player;
+
     [SerializeField]
     private GameObject[] _powerupPrefab;
     [SerializeField]
@@ -17,6 +19,8 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       //Finds and caches player object once
+        _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -33,6 +37,9 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "Laser"){
             Destroy(other.gameObject);
+            if (_player != null) {
+                _player.AddScore();
+            }
             PowerupChance();
             Destroy(gameObject);
         }

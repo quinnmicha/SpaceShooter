@@ -20,6 +20,10 @@ public class Player : MonoBehaviour
     private float _nextFire = 0f;
     private SpawnManager _spawnManager;
 
+    [SerializeField]
+    private int _score;
+    private UIManager _uIManager;
+
     //PowerUps
     private bool _trippleShot = false;
     private bool _speedBoost = false;
@@ -40,6 +44,10 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();//How to grab the gameobject to use the script and null check
         if (_spawnManager == null) {
             Debug.LogError("SpawnManager is null");//Errors out and logs error
+        }
+        _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (_uIManager == null) {
+            Debug.LogError("UIManager is null");
         }
     }
 
@@ -171,5 +179,10 @@ public class Player : MonoBehaviour
         if (shieldRend != null) {
             shieldRend.enabled = true;
         }
+    }
+
+    public void AddScore() {
+        _score += 10;
+        _uIManager.UpdateScore(_score);
     }
 }
