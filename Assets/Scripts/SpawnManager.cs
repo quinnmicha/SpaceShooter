@@ -16,7 +16,7 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(spawnEnemy(_enemySpawnTime));
+        //StartCoroutine(spawnEnemy(_enemySpawnTime));
     }
 
     // Update is called once per frame
@@ -25,8 +25,13 @@ public class SpawnManager : MonoBehaviour
         
     }
 
+    public void StartSpawning() {
+        StartCoroutine(spawnEnemy(_enemySpawnTime));
+    }
+
     private IEnumerator spawnEnemy(float spawnTime) {
         Debug.Log("Entered Coroutine");
+        yield return new WaitForSeconds(3f);
         while (_stopSpawning == false) {
             GameObject newEnemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(_randomX_min, _randomX_max), 6f, 0), Quaternion.identity);
             newEnemy.transform.parent = _container.transform;

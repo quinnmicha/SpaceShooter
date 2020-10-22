@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
     private float _trippleShotDeactivateTime;
     private float _speedDeactivateTime;
     private Renderer shieldRend;
+    private Renderer _rightEngine;
+    private Renderer _leftEngine;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +50,14 @@ public class Player : MonoBehaviour
         _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         if (_uIManager == null) {
             Debug.LogError("UIManager is null");
+        }
+        _rightEngine = transform.GetChild(2).GetComponent<Renderer>();
+        _leftEngine = transform.GetChild(3).GetComponent<Renderer>();
+        if (_rightEngine == null) {
+            Debug.Log("Engine_Right is null in Player.cs");
+        }
+        if (_leftEngine == null) {
+            Debug.Log("Engine_Left is null in Player.cs");
         }
     }
 
@@ -152,12 +162,26 @@ public class Player : MonoBehaviour
         }
         else {
             _lives -= 1;
+            if (_lives == 2) {
+                if ((Random.Range(0, 10)%2)==0)
+                {
+                    _rightEngine.enabled = true;
+                }
+                else {
+                    _leftEngine.enabled = true;
+                }
+            }
+            if (_lives <= 1) {
+                _rightEngine.enabled = true;
+                _leftEngine.enabled = true;
+            }
+           
             if (_lives < 0)
             {
                 _spawnManager.transform.GetComponent<SpawnManager>().onPlayerDeath();
-
                 Destroy(this.gameObject);
             }
+            _uIManager.UpdateLives(_lives);
         }
         
     }

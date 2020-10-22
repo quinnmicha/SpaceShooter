@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
     private float _randomNumber;
     private int _randomPowerup;
     private float _powerUpChance = 0.2f;//This will be the "percentage" that a powerup will spawn
+
+    private Animator _death_Anim;
     
 
     // Start is called before the first frame update
@@ -21,6 +23,14 @@ public class Enemy : MonoBehaviour
     {
        //Finds and caches player object once
         _player = GameObject.Find("Player").GetComponent<Player>();
+        if (_player == null) {
+            Debug.Log("Player is Null");
+        }
+        _death_Anim = gameObject.GetComponent<Animator>();
+        if (_death_Anim == null) {
+            Debug.Log("Enemy Death Animation is Null");
+        }
+
     }
 
     // Update is called once per frame
@@ -41,7 +51,9 @@ public class Enemy : MonoBehaviour
                 _player.AddScore();
             }
             PowerupChance();
-            Destroy(gameObject);
+            _death_Anim.SetTrigger("OnEnemyDeath");
+            _speed = 0;
+            Destroy(gameObject, 2f);
         }
         else if (other.tag == "Player") {
             //other.transform gets the root of the gameObject .GetComponent<> gets the added component on the gameObject, 
@@ -53,6 +65,8 @@ public class Enemy : MonoBehaviour
             if (player != null) {
                 player.Damage();
             }
+            _death_Anim.SetTrigger("OnEnemyDeath");
+            _speed = 0;
             Destroy(gameObject);
         }
         
